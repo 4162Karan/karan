@@ -27,6 +27,7 @@ namespace JSProject.Controllers
 
         public IActionResult Index()
         {
+            // commented code
             return View();
         }
         [HttpPost]
