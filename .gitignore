@@ -4,6 +4,7 @@
 
 # Ignore log files
 *.log
+*.vsidx
 
 # Ignore configuration files with sensitive information
 config.ini
