@@ -11,3 +11,4 @@ config.ini
 # Ignore directories
 /node_modules
 /build
+/JSProject/JSProject.csproj
