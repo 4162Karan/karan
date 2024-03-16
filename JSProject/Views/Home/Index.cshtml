@@ -1,0 +1,138 @@
+﻿@model JSProject.Models.TestModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<!-- toastr CSS file -->
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <form id="Form" novalidate class="needs-validation">
+            @Html.HiddenFor(m=>m.Checkbox)
+            <input type="file" id="file" asp-for="FileName" multiple="multiple" />
+
+            <br />
+            <br />
+            <input type="checkbox" id="vehicle" name="Checkbox" value="I have a bike">
+            <label for="vehicle1"> I have a bike</label>
+            <br>
+            <input type="checkbox" id="vehicle" name="Checkbox" value="I have a car">
+            <label for="vehicle2"> I have a car</label>
+            <br>
+            <input type="checkbox" id="vehicle" name="Checkbox" value="I have a boat">
+            <label for="vehicle3"> I have a boat</label>
+            <br>
+            <br>
+            <br>
+            @*<button class="btn btn-primary" onclick="SvaeData();">Save</button>*@
+        </form>
+    </div>
+</div>
+
+<button onclick="showPopup();">Show Popup</button>
+
+<!-- Popup content -->
+<div id="popup" class="modal">
+    <div id="divId" class="modal-dialog">
+    </div>
+</div>
+
+@*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.13/jquery.validate.unobtrusive.min.js"></script>
+*@
+
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+<!-- toastr JavaScript file -->
+@section scripts{
+
+
+    <script>
+
+        //var data = $("#Form").serialize();
+        //fd.append('#FileName', file.files[0],);
+        function showPopup(Id) {
+            debugger;
+            $.ajax({
+                type: 'GET',
+                url: '/Home/_popupView',
+                data: { Id: Id },
+                success: function (data) {
+                    $('#popup').modal('show');
+                    $('#divId').html('');
+                    $('#divId').html(data);
+                    setTimeout(function () {
+                        $.validator.unobtrusive.parse('#popupForm');
+                    }, 2000);
+                },
+                error: function () {
+                    alert('Failed to receive the Data');
+                    console.log('Failed ');
+                }
+            });
+
+        }
+        $('#popup .close').on('click', function () {
+            $('#popup').modal('hide');
+        });
+
+        function SaveData() {
+            debugger;
+            var formData = new FormData(document.getElementById('popupForm'));
+            if ($('#popupForm').valid()) {
+                ajax({
+                    type: 'POST',
+                    url: '/Home/SaveData',
+                    data: formData,
+                    success: function (data) {
+                        if (data) {
+                            toastr.success("Data success save");
+                            setTimeout(function () {
+                                $('#popup').modal('hide');
+                                location.reload();
+                            }, 2000);
+                        }
+                    },
+                    error: function () {
+                        toastr.error("Error on savinf data");
+                    }
+                });
+            }
+        }
+
+
+
+                        //$(document).ready(function () {
+                        //    $("#popupForm").validate({
+                        //        rules: {
+                        //            roleName: {
+                        //                required: true,
+                        //                minlength: 3
+                        //            }
+
+                        //        },
+                        //        messages: {
+                        //            roleName: {
+                        //                required: "Please enter your name.",
+                        //                minlength: "Your name must be at least 3 characters long."
+                        //            }
+                        //        }
+                        //    });
+                        //});
+
+
+    </script>
+}
+
+@*contentType: false, // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it*@

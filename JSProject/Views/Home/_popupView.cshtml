@@ -1,0 +1,20 @@
+﻿@model TestModel
+<form id="popupForm">
+    @Html.HiddenFor(model => model.Id)
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Popup Title</h5>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <label  for="name">Role Name:</label>
+            <input type="text" asp-for="RoleName" id="name" name="name" maxlength="50">
+            <span asp-validation-for="RoleName" class="text-danger"></span>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="SaveData();" >Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</form>
+
